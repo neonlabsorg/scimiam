@@ -61,7 +61,7 @@ group :development do
 
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
-  
+
     # See https://github.com/bkeepers/dotenv
   gem 'dotenv-rails'
 end
@@ -74,3 +74,6 @@ end
 
 # SCIM v2 API endpoint implementation [https://github.com/RIPAGlobal/scimitar]
 gem 'scimitar', '~> 2.10'
+
+# This explicit version declaration prevents warning messages during bundle install
+gem "stringio", "3.1.2"
