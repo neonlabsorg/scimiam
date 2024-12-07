@@ -61,6 +61,9 @@ group :development do
 
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
+  
+    # See https://github.com/bkeepers/dotenv
+  gem 'dotenv-rails'
 end
 
 group :test do
