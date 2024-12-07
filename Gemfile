@@ -68,3 +68,6 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+
+# SCIM v2 API endpoint implementation [https://github.com/RIPAGlobal/scimitar]
+gem 'scimitar', '~> 2.10'

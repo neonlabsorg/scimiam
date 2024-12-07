@@ -199,6 +199,8 @@ GEM
       io-console (~> 0.5)
     rexml (3.3.9)
     rubyzip (2.3.2)
+    scimitar (2.10.0)
+      rails (~> 7.0)
     securerandom (0.4.0)
     selenium-webdriver (4.27.0)
       base64 (~> 0.2)
@@ -252,6 +254,7 @@ DEPENDENCIES
   pg (~> 1.1)
   puma (>= 5.0)
   rails (~> 7.1.5)
+  scimitar (~> 2.10)
   selenium-webdriver
   sprockets-rails
   stimulus-rails
