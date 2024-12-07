@@ -7,4 +7,18 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+
+  namespace :api do
+    namespace :v1 do
+      mount Scimitar::Engine, at: '/'
+    
+      get    'Users',     to: 'users#index'
+      get    'Users/:id', to: 'users#show'
+      post   'Users',     to: 'users#create'
+      put    'Users/:id', to: 'users#replace'
+      patch  'Users/:id', to: 'users#update'
+      delete 'Users/:id', to: 'users#destroy'
+      
+    end
+  end
 end
