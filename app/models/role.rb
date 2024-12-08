@@ -1,5 +1,8 @@
 class Role < ActiveRecord::Base
 
+  has_many :accesses
+  has_many :users, through: :accesses
+
   READWRITE_ATTRS = %w{
     scim_uid
     name
@@ -18,6 +21,15 @@ class Role < ActiveRecord::Base
       id:           :id,
       externalId:   :scim_uid,
       displayName:  :displayname,
+      users: [
+        {
+          list:  :users,
+          using: {
+            value:   :id,
+            display: :displayname
+          }
+        }
+      ],
       active:       :is_active?
     }
   end

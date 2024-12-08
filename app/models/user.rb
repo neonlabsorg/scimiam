@@ -1,5 +1,8 @@
 class User < ActiveRecord::Base
 
+  has_many :accesses
+  has_many :roles, through: :accesses
+  
   READWRITE_ATTRS = %w{
     scim_uid
     username
@@ -37,15 +40,15 @@ class User < ActiveRecord::Base
           }
         }
       ],
-      # groups: [
-      #   {
-      #     list:  :groups,
-      #     using: {
-      #       value:   :id,
-      #       display: :displayname
-      #     }
-      #   }
-      # ],
+      roles: [
+        {
+          list:  :roles,
+          using: {
+            value:   :id,
+            display: :displayname
+          }
+        }
+      ],
       active: :is_active?
     }
   end

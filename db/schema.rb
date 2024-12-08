@@ -10,9 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_12_07_145257) do
+ActiveRecord::Schema[7.1].define(version: 2024_12_08_081741) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "accesses", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id", null: false
+    t.uuid "role_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["role_id"], name: "index_accesses_on_role_id"
+    t.index ["user_id", "role_id"], name: "index_accesses_on_user_id_and_role_id", unique: true
+    t.index ["user_id"], name: "index_accesses_on_user_id"
+  end
 
   create_table "roles", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.text "scim_uid"
@@ -34,4 +44,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_07_145257) do
     t.boolean "is_active", default: true
   end
 
+  add_foreign_key "accesses", "roles"
+  add_foreign_key "accesses", "users"
 end
