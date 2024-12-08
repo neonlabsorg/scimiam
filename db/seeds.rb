@@ -31,5 +31,35 @@ if Rails.env.development? || Rails.env.test?
 		end
 	end
 
+	# Create SCIM roles
+	roles_data = [
+		{
+			displayname: 'Admin',
+			scim_uid: 'role_admin',
+			is_active: true,
+		},
+		{
+			displayname: 'User',
+			scim_uid: 'role_user',
+			is_active: true
+		}
+	]
+
+	roles_data.each do |role_data|
+		Role.find_or_create_by!(scim_uid: role_data[:scim_uid]) do |role|
+			role.assign_attributes(role_data)
+		end
+	end
+
+	# Assign Admin role to John Doe
+	john = User.find_by(username: 'john.doe')
+	admin_role = Role.find_by(displayname: 'Admin')
+	
+	if john && admin_role && !john.roles.include?(admin_role)
+		john.roles << admin_role
+	end
+
 	puts "Created #{User.count} SCIM users"
+	puts "Created #{Role.count} SCIM roles"
+	puts "Assigned Admin role to #{john.displayname}"
 end
