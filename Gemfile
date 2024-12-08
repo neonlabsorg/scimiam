@@ -77,3 +77,9 @@ gem 'scimitar', '~> 2.10'
 
 # Use simple Rails wrapper for Google Material Icons [https://github.com/Angelmmiguel/material_icons]
 gem 'material_icons'
+
+# Rack Middleware for authentications [https://github.com/omniauth/omniauth]
+gem "omniauth"
+gem "omniauth-rails_csrf_protection"
+# Omniauth OIDC provider [https://github.com/omniauth/omniauth_openid_connect]
+gem "omniauth_openid_connect"
