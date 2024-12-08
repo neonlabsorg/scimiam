@@ -75,5 +75,5 @@ end
 # SCIM v2 API endpoint implementation [https://github.com/RIPAGlobal/scimitar]
 gem 'scimitar', '~> 2.10'
 
-# This explicit version declaration prevents warning messages during bundle install
-gem "stringio", "3.1.2"
+# Use simple Rails wrapper for Google Material Icons [https://github.com/Angelmmiguel/material_icons]
+gem 'material_icons'
