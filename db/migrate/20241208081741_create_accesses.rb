@@ -5,6 +5,7 @@ class CreateAccesses < ActiveRecord::Migration[7.1]
       t.references  :role, null: false, foreign_key: true, type: :uuid
       t.text        :justification
       t.datetime    :expires_at
+      t.string      :status, default: "pending", null: false
       t.string      :approvals, array: true, default: []
       t.boolean     :approved, default: false, null: false
 

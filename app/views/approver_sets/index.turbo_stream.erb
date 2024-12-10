@@ -1,0 +1,13 @@
+<%= turbo_stream.append :approver_sets do %>
+  <% @approver_sets.each do |approver_set| %>
+    <%= render "approver_set", approver_set: approver_set %>
+  <% end %>
+<% end %>
+
+<% if @pagy.next.present? %>
+  <%= turbo_stream.replace :pagination do %>
+    <%= turbo_frame_tag :pagination, 
+                        loading: :lazy,
+                        src: approver_sets_path(format: :turbo_stream, page: @pagy.next, q: params[:q]&.to_unsafe_h) %>
+  <% end %>
+<% end %> 

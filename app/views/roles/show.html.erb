@@ -21,12 +21,11 @@
         <div class="px-4 py-2 col-span-2"><%= @role.name %></div>
 
         <div class="px-4 py-2 font-semibold col-span-1">Term</div>
-        <div class="px-4 py-2 col-span-2"><!--%= @role.term ||= "&infin;".html_safe %--> </div>
+        <div class="px-4 py-2 col-span-2"><%= @role.term ||= "&infin;".html_safe %> </div>
 
       </div>
     </div>
   </div>
-
 
   <div class="p-1 flex flex-ow scrollbar-hide mt-5 border-b border-gray-200">
     <div class="font-medium text-base">

@@ -266,6 +266,7 @@ GEM
     regexp_parser (2.9.3)
     reline (0.5.12)
       io-console (~> 0.5)
+    repost (0.4.2)
     rexml (3.3.9)
     rubyzip (2.3.2)
     scimitar (2.10.0)
@@ -343,6 +344,7 @@ DEPENDENCIES
   puma (>= 5.0)
   rails (~> 7.1.5)
   ransack (~> 4.1)
+  repost
   scimitar (~> 2.10)
   selenium-webdriver
   sprockets-rails

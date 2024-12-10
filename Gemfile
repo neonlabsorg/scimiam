@@ -89,3 +89,6 @@ gem "pagy", "~> 6.0"
 
 # Object-based searching [https://github.com/activerecord-hackery/ransack]
 gem "ransack", "~> 4.1"
+
+# Redirect using POST method [https://github.com/vergilet/repost]
+gem 'repost'

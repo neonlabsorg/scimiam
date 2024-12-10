@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   post '/logout', to: 'sessions#destroy', as: 'logout'
 
   resources :roles
+  resources :approver_sets
 
   namespace :api do
     namespace :v1 do

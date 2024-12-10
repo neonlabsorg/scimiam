@@ -50,8 +50,14 @@
               </li>
               <li>
                 <%= link_to roles_path, class: ["flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100", ("bg-gray-100" if request.path == roles_path)] do %>
-                  <%= content_tag(:i, "pattern", class: "material-icons") %>
+                  <%= content_tag(:i, "room_preferences", class: "material-icons") %>
                   <%= content_tag(:span, "Access roles", class: "flex-1 ml-3 whitespace-nowrap") %>
+                <% end %>
+              </li>
+              <li>
+                <%= link_to approver_sets_path, class: ["flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100", ("bg-gray-100" if request.path == approver_sets_path)] do %>
+                  <%= content_tag(:i, "rule", class: "material-icons") %>
+                  <%= content_tag(:span, "Approver sets", class: "flex-1 ml-3 whitespace-nowrap") %>
                 <% end %>
               </li>
             </ul>

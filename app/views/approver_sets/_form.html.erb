@@ -1,0 +1,77 @@
+<% if @approver_set.new_record? %>
+  <% url = approver_sets_path(@approver_set) %>
+  <% http_method = :post %>
+<% else %>
+  <% url = approver_set_path %>
+  <% http_method = :patch %>
+<% end %>
+
+<h1 class="text-xl text-center text-gray-600">Approver Set Builder</h1>
+
+<div class="px-3 py-5">
+<%= form_with model: @approver_set, url: url, method: http_method, data: { turbo: true } do |form| %>
+
+  <div class="md:flex mt-3 px-4 w-full">
+      <div class="md:w-1/3 w-full">
+          <%= form.label :name, class: "block text-gray-600 uppercase text-xs font-semibold mb-2 required-label w-full" %>
+      </div>
+      <div class="md:w-2/3 mb-3 w-full">
+          <%= form.text_field :name, class: "border-1 py-0.5 border-gray-200 font-light rounded focus:ring-1 w-full" %>
+      </div>
+  </div>
+
+  <div class="md:flex mt-3 px-4">
+    <div class="md:w-1/3">
+      <%= form.label "Primary approvers", class: "block text-gray-600 uppercase text-xs font-semibold mb-2 required-label w-full" %>
+    </div>
+    <div class="md:w-2/3 w-full">
+      <%= form.select "primary_approver_ids", 
+                      options_for_select(@user_options.map { |user| [user.displayname, user.id] }, approver_set.primary_approver_ids), {include_hidden: false},
+                      { multiple: true, data: {controller: 'slim', slim_options: { showSearch: true, placeholderText: '' }.to_json} } %>
+    </div>
+  </div>
+
+  <div class="md:flex mt-3 px-4">
+    <div class="md:w-1/3">
+      <%= form.label "Secondary approvers", class: "block text-gray-600 uppercase text-xs font-semibold mb-2 w-full" %>
+    </div>
+    <div class="md:w-2/3 w-full">
+      <%= form.select "secondary_approver_ids", 
+                      options_for_select(@user_options.map { |user| [user.displayname, user.id] }, approver_set.secondary_approver_ids), {include_hidden: false},
+                      { multiple: true, data: {controller: 'slim', slim_options: { showSearch: true, placeholderText: '' }.to_json} } %>
+    </div>
+  </div>
+
+  <div class="md:flex mt-3 px-4">
+    <div class="md:w-1/3">
+      <%= form.label "Required primary approvals", class: "block text-gray-600 uppercase text-xs font-semibold mb-2 w-full" %>
+    </div>
+    <div class="md:w-2/3 w-full">
+      <%= form.number_field :required_primary_approvals, class: "border-1 py-0.5 border-gray-200 font-light rounded focus:ring-1 w-full" %>
+    </div>
+  </div>
+
+  <div class="md:flex mt-3 px-4">
+    <div class="md:w-1/3">
+      <%= form.label "Required secondary approvals", class: "block text-gray-600 uppercase text-xs font-semibold mb-2 w-full" %>
+    </div>
+    <div class="md:w-2/3 w-full">
+      <%= form.number_field :required_secondary_approvals, class: "border-1 py-0.5 border-gray-200 font-light rounded focus:ring-1 w-full" %>
+    </div>
+  </div>
+
+  <hr class="w-full border-gray-300 border-1 mt-3 mb-5">
+
+  <div class="flex flex-wrap">
+    <div class="w-full lg:w-12/12 px-4 py-3">
+      <div class="flex justify-end">
+        <div class="flex flex-col lg:flex-row lg:items-center">
+          <%= form.submit "Submit", class: "px-3 py-1 text-xs font-medium text-center text-white bg-blue-700 rounded-sm hover:bg-blue-800 w-20 h-6" %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<% end %>
+</div>
