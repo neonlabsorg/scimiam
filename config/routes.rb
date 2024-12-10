@@ -13,6 +13,8 @@ Rails.application.routes.draw do
   get '/auth/failure', to: 'sessions#failure'
   post '/logout', to: 'sessions#destroy', as: 'logout'
 
+  resources :roles
+
   namespace :api do
     namespace :v1 do
       mount Scimitar::Engine, at: '/'

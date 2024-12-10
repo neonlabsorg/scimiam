@@ -83,3 +83,9 @@ gem "omniauth"
 gem "omniauth-rails_csrf_protection"
 # Omniauth OIDC provider [https://github.com/omniauth/omniauth_openid_connect]
 gem "omniauth_openid_connect"
+
+# Pagination [https://github.com/ddnexus/pagy]
+gem "pagy", "~> 6.0"
+
+# Object-based searching [https://github.com/activerecord-hackery/ransack]
+gem "ransack", "~> 4.1"

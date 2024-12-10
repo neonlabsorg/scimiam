@@ -34,12 +34,12 @@ if Rails.env.development? || Rails.env.test?
 	# Create SCIM roles
 	roles_data = [
 		{
-			displayname: 'Admin',
+			name: 'Admin',
 			scim_uid: 'role_admin',
 			is_active: true,
 		},
 		{
-			displayname: 'User',
+			name: 'User',
 			scim_uid: 'role_user',
 			is_active: true
 		}
@@ -53,7 +53,7 @@ if Rails.env.development? || Rails.env.test?
 
 	# Assign Admin role to John Doe
 	john = User.find_by(username: 'john.doe')
-	admin_role = Role.find_by(displayname: 'Admin')
+	admin_role = Role.find_by(	name: 'Admin')
 	
 	if john && admin_role && !john.roles.include?(admin_role)
 		john.roles << admin_role

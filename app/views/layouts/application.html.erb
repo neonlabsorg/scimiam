@@ -10,22 +10,21 @@
   <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
   <%= stylesheet_link_tag "https://cdnjs.cloudflare.com/ajax/libs/slim-select/2.4.5/slimselect.min.css", "data-turbo-track": "reload" %>
   <%= javascript_importmap_tags %>
-  <%= favicon_link_tag asset_path('logo.png') %>
+  <%= favicon_link_tag asset_path('favicon.ico') %>
 </head>
 
 <body>
   <div data-controller="reveal" data-reveal-hidden-class="-translate-x-full">
 
     <header class="fixed top-0 z-50 w-full bg-white border-b border-gray-200 2xl:px-96">
-      <div class="px-3 py-3 lg:px-5 lg:pl-3">
+      <div class="px-3 py-1 lg:px-5 lg:pl-3">
         <div class="flex items-center justify-between">
           <div class="flex items-center justify-start">
             <button data-action="click->reveal#toggle" type="button" class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200">
               <i class="material-icons">menu_open</i>
             </button>
             <a href="https://<%= ENV['HOSTNAME'] %>" class="flex ml-2 md:mr-24">
-              <%= image_tag "logo.png", alt: "", class: "w-8 h-8 mr-3"%>
-              <span class="self-center text-md font-semibold sm:text-md whitespace-nowrap">SCIMIAM</span>
+              <%= image_tag "logo.png", alt: "", class: "w-26 h-10 mr-3"%>
             </a>
           </div>
           <div class="flex items-center text-sm">
@@ -47,6 +46,12 @@
                   <%= content_tag(:i, "admin_panel_settings", class: "material-icons") %>
                   <%= content_tag(:span, "Profile", class: "flex-1 ml-3 whitespace-nowrap") %>
                   <!--%= content_tag(:span, "3", class: "inline-flex items-center justify-center w-3 h-3 p-3 text-sm text-blue-800 bg-blue-100 rounded-full") %-->
+                <% end %>
+              </li>
+              <li>
+                <%= link_to roles_path, class: ["flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100", ("bg-gray-100" if request.path == roles_path)] do %>
+                  <%= content_tag(:i, "pattern", class: "material-icons") %>
+                  <%= content_tag(:span, "Access roles", class: "flex-1 ml-3 whitespace-nowrap") %>
                 <% end %>
               </li>
             </ul>

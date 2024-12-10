@@ -55,4 +55,14 @@ class Role < ActiveRecord::Base
   # end
 
   # include Scimitar::Resources::Mixin
+
+
+  def self.ransackable_attributes(auth_object = nil)
+    %w[name is_active]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    %w[accesses]
+  end
+
 end 

@@ -75,5 +75,13 @@ class User < ActiveRecord::Base
     }
   end
 
+  def self.ransackable_attributes(auth_object = nil)
+    %w[username displayname work_email_address is_active]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    %w[roles]
+  end
+
   include Scimitar::Resources::Mixin
 end

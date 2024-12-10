@@ -17,6 +17,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_08_081741) do
   create_table "accesses", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "user_id", null: false
     t.uuid "role_id", null: false
+    t.text "justification"
+    t.datetime "expires_at"
+    t.string "approvals", default: [], array: true
+    t.boolean "approved", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["role_id"], name: "index_accesses_on_role_id"
@@ -26,8 +30,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_08_081741) do
 
   create_table "roles", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.text "scim_uid"
-    t.text "displayname", null: false
+    t.text "name", null: false
     t.boolean "is_active", default: true
+    t.integer "term"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
