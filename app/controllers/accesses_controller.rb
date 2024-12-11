@@ -14,8 +14,8 @@ class AccessesController < ApplicationController
       flash[:success] = "Access request submitted"
       redirect_to root_path
     else
-      flash[:error] = @access.errors.full_messages
-      redirect_to new_access_path
+      flash[:errors] = @access.errors.full_messages
+      redirect_to root_path
     end
   end
 

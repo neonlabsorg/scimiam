@@ -21,7 +21,7 @@
   <%= turbo_frame_tag :results, data: { turbo_action: 'advance' } do %>
       <table class="w-full border table-auto md:table-fixed">
         <thead>
-          <tr class="bg-gray-100 text-gray text-sm leading-3">
+          <tr class="bg-gray-100 text-gray text-xs leading-3">
             <th class="py-2 px-3 text-left md:w-1/3"><%= sort_link @q, :name, "Name", {}, { data: { turbo_frame: :results} } %></th>
             <th class="py-2 px-3 text-left md:w-1/3">Primary Approvers</th>
             <th class="py-2 px-3 text-left md:w-1/3">Secondary Approvers</th>
