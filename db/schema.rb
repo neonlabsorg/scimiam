@@ -29,7 +29,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_10_091913) do
     t.index ["user_id"], name: "index_accesses_on_user_id"
   end
 
-  create_table "approver_sets", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+  create_table "approval_workflows", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", null: false
     t.uuid "primary_approver_ids", default: [], array: true
     t.uuid "secondary_approver_ids", default: [], array: true
@@ -46,8 +46,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_10_091913) do
     t.integer "term"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.uuid "approver_set_id"
-    t.index ["approver_set_id"], name: "index_roles_on_approver_set_id"
+    t.uuid "approval_workflow_id"
+    t.index ["approval_workflow_id"], name: "index_roles_on_approval_workflow_id"
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -64,5 +64,5 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_10_091913) do
 
   add_foreign_key "accesses", "roles"
   add_foreign_key "accesses", "users"
-  add_foreign_key "roles", "approver_sets"
+  add_foreign_key "roles", "approval_workflows"
 end

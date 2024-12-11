@@ -1,0 +1,13 @@
+<%= turbo_stream.append :approval_workflows do %>
+  <% @approval_workflows.each do |approval_workflow| %>
+    <%= render "approval_workflow", approval_workflow: approval_workflow %>
+  <% end %>
+<% end %>
+
+<% if @pagy.next.present? %>
+  <%= turbo_stream.replace :pagination do %>
+    <%= turbo_frame_tag :pagination, 
+                        loading: :lazy,
+                        src: approval_workflows_path(format: :turbo_stream, page: @pagy.next, q: params[:q]&.to_unsafe_h) %>
+  <% end %>
+<% end %> 

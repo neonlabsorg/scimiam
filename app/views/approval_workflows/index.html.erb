@@ -13,7 +13,7 @@
           </div>
         </div>
         <div class="basis-1/2 justify-end flex p-1">
-            <%= button_to "Create", new_approver_set_path, method: :get, data: { turbo_frame: :main }, class: "px-3 py-1 text-xs font-medium text-center text-white bg-blue-700 rounded-sm hover:bg-blue-800" %>
+            <%= button_to "Create", new_approval_workflow_path, method: :get, data: { turbo_frame: :main }, class: "px-3 py-1 text-xs font-medium text-center text-white bg-blue-700 rounded-sm hover:bg-blue-800" %>
         </div>
       </div>
     </div>
@@ -28,12 +28,12 @@
             <th class="py-2 px-3 text-end"></th>
           </tr>
         </thead>
-        <tbody id="approver_sets" class="text-gray-600 text-sm font-light">
+        <tbody id="approval_workflows" class="text-gray-600 text-sm font-light">
         </tbody>
       </table>
 
   <%= turbo_frame_tag :pagination, loading: :lazy,  data: { turbo_action: 'advance' },
-                      src: approver_sets_path(format: :turbo_stream, q: params[:q]&.to_unsafe_h) %>
+                      src: approval_workflows_path(format: :turbo_stream, q: params[:q]&.to_unsafe_h) %>
   <% end %>
 
 </div>

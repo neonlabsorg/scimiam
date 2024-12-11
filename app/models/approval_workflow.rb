@@ -1,4 +1,4 @@
-class ApproverSet < ApplicationRecord
+class ApprovalWorkflow < ApplicationRecord
   has_many :roles
 
   validates :name, presence: true
@@ -6,13 +6,13 @@ class ApproverSet < ApplicationRecord
   validates :required_primary_approvals, presence: true,
     numericality: { 
       greater_than_or_equal_to: 1,
-      less_than_or_equal_to: ->(set) { set.primary_approver_ids.size }
+      less_than_or_equal_to: ->(workflow) { workflow.primary_approver_ids.size }
     }
   
   validates :required_secondary_approvals, presence: true,
     numericality: { 
       greater_than_or_equal_to: 0,
-      less_than_or_equal_to: ->(set) { set.secondary_approver_ids.size }
+      less_than_or_equal_to: ->(workflow) { workflow.secondary_approver_ids.size }
     }
 
   validate :secondary_approvals_cannot_exceed_approvers

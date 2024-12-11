@@ -1,15 +1,15 @@
-<% if @approver_set.new_record? %>
-  <% url = approver_sets_path(@approver_set) %>
+<% if @approval_workflow.new_record? %>
+  <% url = approval_workflows_path(@approval_workflow) %>
   <% http_method = :post %>
 <% else %>
-  <% url = approver_set_path %>
+  <% url = approval_workflow_path %>
   <% http_method = :patch %>
 <% end %>
 
-<h1 class="text-xl text-center text-gray-600">Approver Set Builder</h1>
+<h1 class="text-xl text-center text-gray-600">Approval Workflow Builder</h1>
 
 <div class="px-3 py-5">
-<%= form_with model: @approver_set, url: url, method: http_method, data: { turbo: true } do |form| %>
+<%= form_with model: @approval_workflow, url: url, method: http_method, data: { turbo: true } do |form| %>
 
   <div class="md:flex mt-3 px-4 w-full">
       <div class="md:w-1/3 w-full">
@@ -26,7 +26,7 @@
     </div>
     <div class="md:w-2/3 w-full">
       <%= form.select "primary_approver_ids", 
-                      options_for_select(@user_options.map { |user| [user.displayname, user.id] }, approver_set.primary_approver_ids), {include_hidden: false},
+                      options_for_select(@user_options.map { |user| [user.displayname, user.id] }, @approval_workflow.primary_approver_ids), {include_hidden: false},
                       { multiple: true, data: {controller: 'slim', slim_options: { showSearch: true, placeholderText: '' }.to_json} } %>
     </div>
   </div>
@@ -37,7 +37,7 @@
     </div>
     <div class="md:w-2/3 w-full">
       <%= form.select "secondary_approver_ids", 
-                      options_for_select(@user_options.map { |user| [user.displayname, user.id] }, approver_set.secondary_approver_ids), {include_hidden: false},
+                      options_for_select(@user_options.map { |user| [user.displayname, user.id] }, @approval_workflow.secondary_approver_ids), {include_hidden: false},
                       { multiple: true, data: {controller: 'slim', slim_options: { showSearch: true, placeholderText: '' }.to_json} } %>
     </div>
   </div>

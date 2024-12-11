@@ -19,11 +19,11 @@ class Access < ActiveRecord::Base
   end
 
   def can_approve?(approver_id)
-    return false unless role.approver_set
+    return false unless role.approval_workflow
     return false if approved?
     return false if approvals.include?(approver_id)
 
-    set = role.approver_set
+    set = role.approval_workflow
 
     case status
     when 'pending'
@@ -36,13 +36,13 @@ class Access < ActiveRecord::Base
   end
 
   def pending_approvers
-    return [] unless role.approver_set
+    return [] unless role.approval_workflow
     
     case status
     when 'pending'
-      role.approver_set.primary_approver_ids - approvals
+      role.approval_workflow.primary_approver_ids - approvals
     when 'pending_secondary'
-      role.approver_set.secondary_approver_ids - approvals
+      role.approval_workflow.secondary_approver_ids - approvals
     else
       []
     end
@@ -51,7 +51,7 @@ class Access < ActiveRecord::Base
   private
 
   def update_status!
-    set = role.approver_set
+    set = role.approval_workflow
     primary_count = (approvals & set.primary_approver_ids).size
     secondary_count = (approvals & set.secondary_approver_ids).size
 
