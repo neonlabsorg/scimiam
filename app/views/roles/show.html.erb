@@ -23,6 +23,9 @@
         <div class="px-4 py-2 font-semibold col-span-1">Term</div>
         <div class="px-4 py-2 col-span-2"><%= @role.term ||= "&infin;".html_safe %> </div>
 
+        <div class="px-4 py-2 font-semibold col-span-1">Approval Workflow</div>
+        <div class="px-4 py-2 col-span-2"><%= @role.approval_workflow&.name || "None" %></div>
+
       </div>
     </div>
   </div>

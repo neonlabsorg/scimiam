@@ -2,6 +2,7 @@ class RolesController < ApplicationController
   before_action :authorize
   before_action :set_role, only: %i[show edit update destroy]
   before_action :set_accesses, only: %i[show]
+  before_action :load_approval_workflows, only: [:new, :edit, :create, :update]
 
   def index
     search_params = params.permit(:format, :page, q: [:name_cont, :s])
@@ -67,6 +68,10 @@ class RolesController < ApplicationController
   end
 
   def role_params
-    params.require(:role).permit(:name, :term)
+    params.require(:role).permit(:name, :term, :approval_workflow_id)
+  end
+
+  def load_approval_workflows
+    @approval_workflows = ApprovalWorkflow.all
   end
 end
