@@ -1,5 +1,6 @@
 class ApprovalWorkflow < ApplicationRecord
   has_many :roles, dependent: :restrict_with_error
+  has_many :accesses, through: :roles
 
   validates :name, presence: true
   validates :primary_approver_ids, presence: true
@@ -17,6 +18,8 @@ class ApprovalWorkflow < ApplicationRecord
 
   validate :secondary_approvals_cannot_exceed_approvers
   validate :primary_and_secondary_approvers_must_be_different
+
+  after_update :recheck_pending_accesses
 
   def primary_approvers
     User.where(id: primary_approver_ids)
@@ -55,6 +58,29 @@ class ApprovalWorkflow < ApplicationRecord
     return if (primary_approver_ids & secondary_approver_ids).empty?
     
     errors.add(:base, "Users cannot be both primary and secondary approvers")
+  end
+
+  def recheck_pending_accesses
+    accesses.where(status: ['pending', 'pending_secondary']).find_each do |access|
+      # Skip if no approvals yet
+      next if access.approvals.empty?
+      
+      # Recheck if current approvals are sufficient under new workflow rules
+      case access.status
+      when 'pending'
+        if access.approvals.size >= required_primary_approvals
+          access.status = required_secondary_approvals.positive? ? 'pending_secondary' : 'approved'
+          access.approved = true if access.status == 'approved'
+          access.save
+        end
+      when 'pending_secondary'
+        if access.approvals.size >= (required_primary_approvals + required_secondary_approvals)
+          access.status = 'approved'
+          access.approved = true
+          access.save
+        end
+      end
+    end
   end
 
 end
