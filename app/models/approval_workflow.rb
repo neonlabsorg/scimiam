@@ -26,6 +26,10 @@ class ApprovalWorkflow < ApplicationRecord
     User.where(id: secondary_approver_ids)
   end
 
+  def all_approvers
+    User.where(id: all_approver_ids)
+  end
+
   def all_approver_ids
     primary_approver_ids + secondary_approver_ids
   end

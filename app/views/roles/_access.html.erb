@@ -10,7 +10,7 @@
         <p class="text-gray-400 font-medium text-xs">expires at <%= access.expires_at.to_date %></p>
       <% end %>
       <% if access.approved? %>
-        <%= link_to "Revoke", access_path(access), data: { controller: 'turbo' },  
+        <%= link_to "Revoke", comment_access_path(access), data: { controller: 'turbo' },  
                     class: "px-3 py-1 text-xs font-medium text-center text-red-800 mr-1 w-20 h-6" %>
       <% end %>
 

@@ -3,6 +3,8 @@ class Access < ActiveRecord::Base
   belongs_to :role
 
   validates :user_id, uniqueness: { scope: :role_id }
+  validates :role_id, :user_id, presence: true
+  validate :role_has_approval_workflow, on: :create
   
   enum status: {
     pending: 'pending',
@@ -10,10 +12,12 @@ class Access < ActiveRecord::Base
     approved: 'approved'
   }
 
+  after_create :initialize_approval_workflow
+
   def approve!(approver_id)
     return false unless can_approve?(approver_id)
     
-    approvals << approver_id
+    self.approvals = approvals + [approver_id]
     update_status!
     save
   end
@@ -23,13 +27,13 @@ class Access < ActiveRecord::Base
     return false if approved?
     return false if approvals.include?(approver_id)
 
-    set = role.approval_workflow
+    workflow = role.approval_workflow
 
     case status
     when 'pending'
-      set.primary_approver_ids.include?(approver_id)
+      workflow.primary_approver_ids.include?(approver_id)
     when 'pending_secondary'
-      set.secondary_approver_ids.include?(approver_id)
+      workflow.secondary_approver_ids.include?(approver_id)
     else
       false
     end
@@ -50,18 +54,31 @@ class Access < ActiveRecord::Base
 
   private
 
-  def update_status!
-    set = role.approval_workflow
-    primary_count = (approvals & set.primary_approver_ids).size
-    secondary_count = (approvals & set.secondary_approver_ids).size
+  def role_has_approval_workflow
+    unless role&.approval_workflow
+      errors.add(:role, "must have an approval workflow")
+    end
+  end
 
-    if primary_count >= set.required_primary_approvals
-      if set.required_secondary_approvals.zero?
-        self.status = :approved
-      elsif secondary_count >= set.required_secondary_approvals
-        self.status = :approved
-      else
-        self.status = :pending_secondary
+  def initialize_approval_workflow
+    self.status = 'pending'
+    self.approvals = []
+    save
+  end
+
+  def update_status!
+    workflow = role.approval_workflow
+    
+    case status
+    when 'pending'
+      if approvals.size >= workflow.required_primary_approvals
+        self.status = workflow.required_secondary_approvals.positive? ? 'pending_secondary' : 'approved'
+        self.approved = true if status == 'approved'
+      end
+    when 'pending_secondary'
+      if approvals.size >= (workflow.required_primary_approvals + workflow.required_secondary_approvals)
+        self.status = 'approved'
+        self.approved = true
       end
     end
   end

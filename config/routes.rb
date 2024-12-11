@@ -15,6 +15,13 @@ Rails.application.routes.draw do
 
   resources :roles
   resources :approval_workflows
+  resources :accesses, only: [:new, :create, :destroy] do
+    member do
+      get 'comment' # for access revoke and decline
+      post 'approve'
+    end
+  end
+
 
   namespace :api do
     namespace :v1 do

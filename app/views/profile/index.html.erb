@@ -6,9 +6,19 @@
       <p class="text-xs"><!--%= current_user.position %-->position</p>
     </div>
     <div class="flex-grow sm:text-left mt-3 sm:mt-2 justify-end flex">
-      <!--%= link_to "Request access", new_access_path, data: { turbo_frame: :main },  
-      class: 'px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-sm hover:bg-blue-800' %-->
+      <%= link_to "Request access", new_access_path, data: { turbo_frame: :main },
+      class: 'px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-sm hover:bg-blue-800' %>
     </div>
   </div>
-  
+
+<%= @requests.inspect %>
+
+  <% if @requests.any? %>
+    <%= render partial: "profile/access_requests" %>
+  <% end %>
+
+  <% if @accesses.any? %>
+    <%= render partial: "profile/accesses" %>
+  <% end %>
+
 </div>
