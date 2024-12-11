@@ -1,6 +1,6 @@
-class Role < ActiveRecord::Base
+class Role < ApplicationRecord
 
-  has_many :accesses
+  has_many :accesses, dependent: :restrict_with_error
   has_many :users, through: :accesses
   belongs_to :approval_workflow, optional: true
 
