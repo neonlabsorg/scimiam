@@ -21,7 +21,7 @@ Rails.application.routes.draw do
       post 'approve'
     end
   end
-
+  resources :workspace_connections
 
   namespace :api do
     namespace :v1 do
@@ -36,4 +36,5 @@ Rails.application.routes.draw do
 
     end
   end
+
 end

@@ -3,6 +3,7 @@ class Role < ApplicationRecord
   has_many :accesses, dependent: :restrict_with_error
   has_many :users, through: :accesses
   belongs_to :approval_workflow, optional: true
+  belongs_to :workspace_connection, optional: true
 
   validates :name, presence: true
 

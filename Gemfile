@@ -92,3 +92,7 @@ gem "ransack", "~> 4.1"
 
 # Redirect using POST method [https://github.com/vergilet/repost]
 gem 'repost'
+
+gem 'google-apis-admin_directory_v1', '~> 0.59.0'
+gem 'googleauth', '~> 1.12'
+# gem 'google-api-client', '~> 0.59.0'

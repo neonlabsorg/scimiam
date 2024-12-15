@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_12_10_091913) do
+ActiveRecord::Schema[7.1].define(version: 2024_12_12_183931) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -39,6 +39,16 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_10_091913) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "google_workspace_connections", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name", null: false
+    t.text "credentials_json", null: false
+    t.string "subject_email", null: false
+    t.string "domain", null: false
+    t.boolean "is_active", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "roles", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.text "scim_uid"
     t.text "name", null: false
@@ -47,7 +57,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_10_091913) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.uuid "approval_workflow_id"
+    t.uuid "google_workspace_connection_id"
+    t.string "google_workspace_group"
+    t.uuid "workspace_connection_id"
+    t.string "workspace_group"
     t.index ["approval_workflow_id"], name: "index_roles_on_approval_workflow_id"
+    t.index ["google_workspace_connection_id"], name: "index_roles_on_google_workspace_connection_id"
+    t.index ["workspace_connection_id"], name: "index_roles_on_workspace_connection_id"
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -62,7 +78,19 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_10_091913) do
     t.boolean "is_active", default: true
   end
 
+  create_table "workspace_connections", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name", null: false
+    t.string "domain", null: false
+    t.text "credentials", null: false
+    t.string "admin_email", null: false
+    t.boolean "active", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   add_foreign_key "accesses", "roles"
   add_foreign_key "accesses", "users"
   add_foreign_key "roles", "approval_workflows"
+  add_foreign_key "roles", "google_workspace_connections"
+  add_foreign_key "roles", "workspace_connections"
 end

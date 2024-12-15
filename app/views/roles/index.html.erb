@@ -19,11 +19,11 @@
     </div>
 
   <%= turbo_frame_tag :results, data: { turbo_action: 'advance' } do %>
-      <table class="w-full border table-auto md:table-fixed">
+      <table class="w-full border table-auto md:table-fixed bg-white shadow overflow-hidden sm:rounded-lg min-w-full divide-y divide-gray-200">
         <thead>
-          <tr class="bg-gray-100 text-gray text-sm leading-3">
-            <th class="py-2 px-3 text-left md:w-56"><%= sort_link @q, :name, "Name", {}, { data: { turbo_frame: :results} } %></th>
-            <th class="py-2 px-3 text-left md:w-12"><%= sort_link @q, :is_active, "Status", {}, { data: { turbo_frame: :results} } %></th>
+          <tr class="bg-gray-50 text-gray text-sm leading-3">
+            <th class="text-left md:w-56 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"><%= sort_link @q, :name, "Name", {}, { data: { turbo_frame: :results} } %></th>
+            <th class="text-left md:w-12 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"><%= sort_link @q, :is_active, "Status", {}, { data: { turbo_frame: :results} } %></th>
           </tr>
         </thead>
         <tbody id="roles" class="text-gray-600 text-sm font-light">

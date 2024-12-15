@@ -1,8 +1,8 @@
 <tr class="border-b border-gray-200 hover:bg-gray-50">
-  <td class="py-2 px-3 text-left">
+  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-left">
     <%= link_to approval_workflow.name, approval_workflow_path(approval_workflow), data: { turbo: false } %>
   </td>
-  <td class="py-2 px-3 text-left">
+  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-left">
     <div class="text-xs">
       Required: <%= approval_workflow.required_primary_approvals %><br>
       Approvers: <%= approval_workflow.primary_approvers.map(&:username).join(', ') %>
