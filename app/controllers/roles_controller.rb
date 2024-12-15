@@ -38,8 +38,8 @@ class RolesController < ApplicationController
   end
 
   def update
-    if @role.update(role_params.merge(is_active: true))
-      flash[:success] = "Saved"
+    if @role.update(role_params)
+      flash[:success] = "Updated"
       render turbo_stream: turbo_stream.action(:redirect, role_path(@role))
     else
       flash.now[:errors] = @role.errors.full_messages
@@ -68,7 +68,13 @@ class RolesController < ApplicationController
   end
 
   def role_params
-    params.require(:role).permit(:name, :term, :approval_workflow_id)
+    params.require(:role).permit(
+      :name, 
+      :approval_workflow_id, 
+      :term,
+      :workspace_connection_id,
+      :workspace_group
+    )
   end
 
   def load_approval_workflows

@@ -13,6 +13,7 @@ class Access < ActiveRecord::Base
   }
 
   after_create :initialize_approval_workflow
+  after_commit :schedule_provisioning, if: :provisioning_needed?
 
   def approve!(approver_id)
     return false unless can_approve?(approver_id)
@@ -89,5 +90,18 @@ class Access < ActiveRecord::Base
 
   def self.ransackable_associations(auth_object = nil)
     %w[user role]
+  end
+
+  def schedule_provisioning
+    return unless role&.has_provisioning?
+    ProvisionAccessJob.perform_later(role.id)
+  end
+  
+  def provisioning_needed?
+    saved_change_to_approved? || destroyed?
+  end
+  
+  def has_provisioning?
+    workspace_connection_id.present? # TODO || active_directory_group.present?
   end
 end 

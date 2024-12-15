@@ -7,6 +7,10 @@ class Role < ApplicationRecord
 
   validates :name, presence: true
 
+  def has_provisioning?
+    workspace_connection_id.present? && workspace_group.present? # TODO: Add Active Directory provisioning via ||
+  end
+
   def self.ransackable_attributes(auth_object = nil)
     %w[name is_active approval_workflow_id]
   end
