@@ -1,5 +1,5 @@
 <div class="container px-5 py-1 mx-auto text-sm">
-    <div class="p-1">
+    <div class="p-2">
       <div class="flex flex-ow scrollbar-hide">
         <div class="basis-1/2">
           <div class="lg:w-2/3">
@@ -13,13 +13,15 @@
           </div>
         </div>
         <div class="basis-1/2 justify-end flex p-1">
-            <%= button_to "Create", new_role_path, method: :get, data: { turbo_frame: :main }, class: "px-3 py-1 text-xs font-medium text-center text-white bg-blue-700 rounded-sm hover:bg-blue-800" %>
+            <%= button_to "Create", new_role_path, method: :get, data: { turbo_frame: :main }, class: "px-3 py-1 text-xs font-medium text-center text-white bg-blue-500 hover:bg-blue-600 rounded-sm transition-colors duration-150" %>
         </div>
       </div>
     </div>
 
   <%= turbo_frame_tag :results, data: { turbo_action: 'advance' } do %>
-      <table class="w-full border table-auto md:table-fixed bg-white shadow overflow-hidden sm:rounded-lg min-w-full divide-y divide-gray-200">
+  <div class="hidden sm:block">
+    <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+      <table class="min-w-full divide-y divide-gray-200">
         <thead>
           <tr class="bg-gray-50 text-gray text-sm leading-3">
             <th class="text-left md:w-56 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"><%= sort_link @q, :name, "Name", {}, { data: { turbo_frame: :results} } %></th>
@@ -29,6 +31,8 @@
         <tbody id="roles" class="text-gray-600 text-sm font-light">
         </tbody>
       </table>
+    </div>
+  </div>
 
   <%= turbo_frame_tag :pagination, loading: :lazy,  data: { turbo_action: 'advance' },
                       src: roles_path(format: :turbo_stream, q: params[:q]&.to_unsafe_h) %>
