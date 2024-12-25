@@ -11,6 +11,7 @@ class AccessesController < ApplicationController
     @access = Access.new(access_params)
     
     if @access.save
+      AccessMailer.request_notification(@access).deliver_later
       flash[:success] = "Access request submitted"
       redirect_to root_path
     else
@@ -22,6 +23,7 @@ class AccessesController < ApplicationController
   def approve
     @access.performed_by = current_user
     if @access.approve!(current_user.id)
+      AccessMailer.approval_notification(@access).deliver_later
       flash[:success] = "Access request approved"
     else
       flash[:error] = "Unable to approve access request"
@@ -41,7 +43,7 @@ class AccessesController < ApplicationController
         AuditLog.create(event: "Access role #{access.role.name} revoked for #{access.user.displayname} by #{current_user.displayname} with comment: #{comment}")
         flash[:success] = "Revoked"
       else
-        # UserMailer.access_declined(access, comment).deliver_later
+        AccessMailer.decline_notification(access).deliver_later
         # Log the access revocation event
         AuditLog.create(event: "Access role #{access.role.name} declined for #{access.user.displayname} by #{current_user.displayname} with comment: #{comment}")
         flash[:success] = "Declined"

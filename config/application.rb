@@ -23,5 +23,21 @@ module Scimiam
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    # SMTP configuration
+    config.action_mailer.delivery_method = :smtp
+    # config.action_mailer.default_url_options = { host: ENV.fetch("HOSTNAME") { "smtp.dummy.host" } }
+    config.action_mailer.smtp_settings = {
+      address:              ENV.fetch("SMTP_ADDRESS") { "smtp.dummy.address" },
+      port:                 587,
+      domain:               ENV.fetch("SMTP_DOMAIN") { "smtp.dummy.domain" },
+      user_name:            ENV.fetch("SMTP_USERNAME") { "smtp.dummy.username" },
+      password:             ENV.fetch("SMTP_PASSWORD") { "smtp.dummy.passport" },
+      authentication:       "login",
+      enable_starttls:      true,
+      open_timeout:         30,
+      read_timeout:         60
+    }
+
   end
 end
