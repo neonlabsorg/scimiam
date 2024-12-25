@@ -15,12 +15,18 @@ class Access < ActiveRecord::Base
   after_create :initialize_approval_workflow
   after_commit :schedule_provisioning, if: :provisioning_needed?
 
+  # attr_accessor :performed_by
+
   def approve!(approver_id)
     return false unless can_approve?(approver_id)
     
     self.approvals = approvals + [approver_id]
     update_status!
-    save
+    if save
+      approver = User.find(approver_id)
+      AuditLog.create(event: "Access role #{role.name} approved for #{user.displayname} by #{approver.displayname}")
+    end
+    true
   end
 
   def can_approve?(approver_id)
@@ -104,4 +110,19 @@ class Access < ActiveRecord::Base
   def has_provisioning?
     workspace_connection_id.present? # TODO || active_directory_group.present?
   end
+
+  # def log_access_event
+  #   if destroyed?
+  #     performer = User.find(approvals.last) if approvals.present?
+  #     performer_name = performer&.displayname || 'System'
+      
+  #     event = if status == 'pending'
+  #       "Access role #{role.name} declined for #{user.displayname} by #{performer_name}"
+  #     else
+  #       "Access role #{role.name} revoked for #{user.displayname} by #{performer_name}"
+  #     end
+      
+  #     AuditLog.create(event: event)
+  #   end
+  # end
 end 

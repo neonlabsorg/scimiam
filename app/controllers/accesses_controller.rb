@@ -20,6 +20,7 @@ class AccessesController < ApplicationController
   end
 
   def approve
+    @access.performed_by = current_user
     if @access.approve!(current_user.id)
       flash[:success] = "Access request approved"
     else
@@ -28,27 +29,23 @@ class AccessesController < ApplicationController
     redirect_to root_path
   end
 
-  # def destroy
-  #   if @access.destroy
-  #     flash[:success] = "Access revoked"
-  #   else
-  #     flash[:error] = "Unable to revoke access"
-  #   end
-  #   redirect_to root_path
-  # end
-
   def destroy
+    @access.performed_by = current_user
     comment = params[:access][:comment]
     access  = @access
-    # if request.referer.include?('roles')
-    #   # UserMailer.access_revoked(access, comment).deliver_later
-    # else
-    #   # UserMailer.access_declined(access, comment).deliver_later
-    # end
-    role = @access.role # for Trigger IAM job
+
     if @access.destroy
-      # TriggerIamJob.perform_later(role)
-      flash[:success] = "Deleted"
+      if request.referer.include?('roles')
+        # UserMailer.access_revoked(access, comment).deliver_later
+        # Log the access revocation event
+        AuditLog.create(event: "Access role #{access.role.name} revoked for #{access.user.displayname} by #{current_user.displayname} with comment: #{comment}")
+        flash[:success] = "Revoked"
+      else
+        # UserMailer.access_declined(access, comment).deliver_later
+        # Log the access revocation event
+        AuditLog.create(event: "Access role #{access.role.name} declined for #{access.user.displayname} by #{current_user.displayname} with comment: #{comment}")
+        flash[:success] = "Declined"
+      end
       redirect_back(fallback_location: root_path)
     else
       flash[:errors] = @access.errors.full_messages
@@ -57,6 +54,10 @@ class AccessesController < ApplicationController
   end
 
   def comment
+    respond_to do |format|
+      format.turbo_stream # This will render comment.turbo_stream.erb
+      # format.html { render :comment } # Fallback for HTML requests
+    end
   end
 
   private

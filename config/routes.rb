@@ -22,6 +22,7 @@ Rails.application.routes.draw do
     end
   end
   resources :workspace_connections
+  resources :audit_logs, only: [:index]
 
   namespace :api do
     namespace :v1 do
