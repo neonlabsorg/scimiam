@@ -16,7 +16,12 @@
     <div class="flex items-center justify-center h-screen">
       <div class="min-w-fit flex-col bg-white px-8 py-8 shadow-md rounded-[4px] w-96">
         <div class="mb-8 flex justify-center">
-          <%= image_tag "logo.png", alt: "", class: "w-22 h-20"%>
+          <% app_name = ENV['APPLICATION_NAME'] %>
+          <% if app_name %>
+            <%= content_tag(:span, app_name, class: "text-2xl font-bold") %>
+          <% else %>
+            <%= image_tag "logo.png", alt: "", class: "w-22 h-20" %>
+          <% end %>
         </div>
 
         <!-- Display flash messages -->

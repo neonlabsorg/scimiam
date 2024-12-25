@@ -24,7 +24,12 @@
               <i class="material-icons">menu_open</i>
             </button>
             <a href="https://<%= ENV['HOSTNAME'] %>" class="flex ml-2 md:mr-24">
-              <%= image_tag "logo.png", alt: "", class: "w-26 h-10 mr-3"%>
+              <% app_name = ENV['APPLICATION_NAME'] %>
+              <% if app_name %>
+                <%= content_tag(:span, app_name, class: "text-2xl font-bold") %>
+              <% else %>
+                <%= image_tag "logo.png", alt: "", class: "w-26 h-10 mr-3" %>
+              <% end %>
             </a>
           </div>
           <div class="flex items-center text-sm">
@@ -62,7 +67,7 @@
               </li>
               <li>
                 <%= link_to workspace_connections_path, class: ["flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100", ("bg-gray-100" if request.path == workspace_connections_path)] do %>
-                  <%= content_tag(:i, "cloud", class: "material-icons") %>
+                  <%= content_tag(:i, "cloud_sync", class: "material-icons") %>
                   <%= content_tag(:span, "Provisioning Workflows", class: "flex-1 ml-3 whitespace-nowrap") %>
                 <% end %>
               </li>
