@@ -1,5 +1,6 @@
 class ApprovalWorkflowsController < ApplicationController
   before_action :authorize
+  before_action :is_admin?
   before_action :set_approval_workflow, only: [:show, :edit, :update, :destroy]
   before_action :load_user_options, only: [:new, :edit, :create, :update]
 

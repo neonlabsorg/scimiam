@@ -1,5 +1,6 @@
 class WorkspaceConnectionsController < ApplicationController
   before_action :authorize
+  before_action :is_admin?
   before_action :set_workspace_connection, only: [:show, :edit, :update, :destroy]
 
   def index

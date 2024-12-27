@@ -1,5 +1,6 @@
 class AuditLogsController < ApplicationController
   before_action :authorize
+  before_action :is_admin?
 
   def index
     search_params = params.permit(:format, :page, q: [:event_cont, :s])

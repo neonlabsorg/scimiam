@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_12_18_092519) do
+ActiveRecord::Schema[7.1].define(version: 2024_12_27_083420) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -82,6 +82,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_18_092519) do
     t.text "last_name"
     t.text "work_email_address"
     t.boolean "is_active", default: true
+    t.boolean "is_admin", default: false
   end
 
   create_table "workspace_connections", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

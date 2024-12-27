@@ -17,6 +17,13 @@ class ApplicationController < ActionController::Base
     redirect_to '/login' unless current_user
   end
 
+  def is_admin?
+    unless current_user && current_user.is_admin?
+      flash[:warning] = "Not authorized"
+      redirect_to root_path
+    end
+  end
+
 	def layout_by_resource
     if controller_name == 'errors'
       'errors'
