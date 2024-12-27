@@ -49,7 +49,7 @@ class User < ActiveRecord::Base
           }
         }
       ],
-      active: :is_active?
+      active: :is_active
     }
   end
 
