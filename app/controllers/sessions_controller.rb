@@ -12,8 +12,8 @@ class SessionsController < ApplicationController
   def create
     case auth_method
     when "sso" # TODO: probably remove this due to auto SSO
-      user = auth_sso
-      if user.present?
+        user = auth_sso
+        if user.present?
         create_session(user)
       else
         flash[:warning] = "Authentication failed"
@@ -49,7 +49,7 @@ class SessionsController < ApplicationController
 
   def auth_sso
     auth = request.env['omniauth.auth']
-    user = User.find_by(id: auth.uid) # uid corresponds to sub claim
+    user = User.find_by(work_email_address: auth.extra.raw_info.email)
   end
 
   def auth_noauth
