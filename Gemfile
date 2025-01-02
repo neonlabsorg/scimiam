@@ -64,6 +64,9 @@ group :development do
 
     # See https://github.com/bkeepers/dotenv
   gem 'dotenv-rails'
+
+  # # Deployment tool [https://github.com/basecamp/kamal]
+  gem 'kamal', "~> 1.8.0"
 end
 
 group :test do
