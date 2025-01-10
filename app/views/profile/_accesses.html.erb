@@ -10,19 +10,12 @@
   <% @accesses.each do |access| %>
     <li class="flex border-b border-gray-200 py-1 items-center">
       <div class="w-full sm:w-1/2 md:w-1/2 px-4">
-        <% if access.role.approval_workflow.name == "SimpleList & PrioritizedList" %>
-          <div class="w-full mb-1">
-              <p class="text-xs font-small text-yellow-600 truncate">
-                Note: The requested access role has multiple approval levels
-              </p>
-          </div>
-        <% end %>
 
         <p class="text-xs font-medium truncate">
           <%= access.role.name %>
         </p>
         <p class="text-xs text-gray-500 truncate">
-          <%= access.role.name %>
+          <!--%= access.role.name %--> User
         </p>
       </div>
 
