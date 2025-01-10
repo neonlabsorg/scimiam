@@ -8,14 +8,9 @@
       <% end %>
       
       <div class="p-6">
-        <div data-controller="tabs" data-tabs-active-tab-class="-mb-px border-l border-t border-r rounded-t text-blue-700">
-          <ul class="list-reset flex border-b items-center justify-center uppercase">
-            <li class="mb-1 mr-1 cursor-pointer hover:text-blue-700 transition ease-in-out duration-150" data-tabs-target="tab" data-action="click->tabs#change">
-              <span class="border-transparent border-b-2 pb-1 px-2 font-semibold">For you</span>
-            </li>
-          </ul>
 
-          <div class="hidden py-4 px-4" data-tabs-target="panel">
+
+          <div class="py-4 px-4">
             <%= form_with model: @access, url: accesses_path(@access), method: :post, data: {turbo: false} do |form| %>
               <%= form.hidden_field :user_id, value: current_user.id %>
 
@@ -39,7 +34,6 @@
               </div>
             <% end %> 
           </div>
-        </div>
       </div>
     </div>
   </div>
