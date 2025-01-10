@@ -21,7 +21,7 @@ class AccessesController < ApplicationController
   end
 
   def approve
-    @access.performed_by = current_user
+    # @access.performed_by = current_user
     if @access.approve!(current_user.id)
       AccessMailer.approval_notification(@access).deliver_later
       flash[:success] = "Access request approved"
@@ -32,7 +32,7 @@ class AccessesController < ApplicationController
   end
 
   def destroy
-    @access.performed_by = current_user
+    # @access.performed_by = current_user
     comment = params[:access][:comment]
     access  = @access
 

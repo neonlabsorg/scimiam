@@ -12,8 +12,9 @@ class Access < ActiveRecord::Base
     approved: 'approved'
   }
 
-  after_create :initialize_approval_workflow
+  # after_create :initialize_approval_workflow
   after_commit :schedule_provisioning, if: :provisioning_needed?
+  # after_destroy :schedule_provisioning
 
   # attr_accessor :performed_by
 
@@ -67,11 +68,11 @@ class Access < ActiveRecord::Base
     end
   end
 
-  def initialize_approval_workflow
-    self.status = 'pending'
-    self.approvals = []
-    save
-  end
+  # def initialize_approval_workflow
+  #   self.status = 'pending'
+  #   self.approvals = []
+  #   save
+  # end
 
   def update_status!
     workflow = role.approval_workflow
@@ -104,7 +105,7 @@ class Access < ActiveRecord::Base
   end
   
   def provisioning_needed?
-    saved_change_to_approved? || destroyed?
+    saved_change_to_approved? || destroyed? #not clear why I need this gived the access is deleted on revoke
   end
   
   def has_provisioning?

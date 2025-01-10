@@ -1,3 +1,5 @@
+require 'csv'
+
 class RolesController < ApplicationController
   before_action :authorize
   before_action :is_admin?
@@ -27,6 +29,7 @@ class RolesController < ApplicationController
   def create
     @role = Role.new(role_params)
     if @role.save
+      process_user_csv if params[:role][:user_csv].present?
       flash[:success] = "Created"
       render turbo_stream: turbo_stream.action(:redirect, role_path(@role))
     else
@@ -40,6 +43,7 @@ class RolesController < ApplicationController
 
   def update
     if @role.update(role_params)
+      process_user_csv if params[:role][:user_csv].present?
       flash[:success] = "Updated"
       render turbo_stream: turbo_stream.action(:redirect, role_path(@role))
     else
@@ -80,5 +84,22 @@ class RolesController < ApplicationController
 
   def load_approval_workflows
     @approval_workflows = ApprovalWorkflow.all
+  end
+
+  def process_user_csv
+    csv_file = params[:role][:user_csv]
+    CSV.foreach(csv_file.path, headers: true) do |row|
+      user_email = row['email'] # Assuming the CSV has a header 'email'
+      user = User.find_by(work_email_address: user_email)
+      if user
+        access = Access.new(user: user, role: @role, approved: true, status: :approved)
+        # access.approve!(current_user.id) # Cannot use this since we are bypassing standard approval workflow
+        if access.save! 
+          AuditLog.create(event: "Access role #{@role.name} approved for #{user.displayname} by automation")
+        end
+      else
+        Rails.logger.warn "User with email #{user_email} not found. Access not created."
+      end
+    end
   end
 end
