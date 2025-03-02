@@ -78,7 +78,9 @@ class RolesController < ApplicationController
       :approval_workflow_id, 
       :term,
       :workspace_connection_id,
-      :workspace_group
+      :workspace_group,
+      :github_connection_id,
+      :github_team
     )
   end
 

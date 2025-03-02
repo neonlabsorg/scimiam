@@ -19,5 +19,13 @@ module Provisioning
                                    .map { |access| access.user.work_email_address }
                                    .compact
     end
+
+    def approved_user_github_usernames
+      @approved_user_github_usernames ||= role.accesses
+                                   .includes(:user)
+                                   .where(approved: true)
+                                   .map { |access| access.user.github_username }
+                                   .compact
+    end
   end
 end

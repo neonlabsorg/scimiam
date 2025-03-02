@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_01_16_085553) do
+ActiveRecord::Schema[7.1].define(version: 2025_02_26_141152) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -45,6 +45,15 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_16_085553) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "github_connections", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name", null: false
+    t.string "organization", null: false
+    t.text "access_token", null: false
+    t.boolean "active", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "google_workspace_connections", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", null: false
     t.text "credentials_json", null: false
@@ -67,7 +76,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_16_085553) do
     t.string "google_workspace_group"
     t.uuid "workspace_connection_id"
     t.string "workspace_group"
+    t.uuid "github_connection_id"
+    t.string "github_team"
     t.index ["approval_workflow_id"], name: "index_roles_on_approval_workflow_id"
+    t.index ["github_connection_id"], name: "index_roles_on_github_connection_id"
     t.index ["google_workspace_connection_id"], name: "index_roles_on_google_workspace_connection_id"
     t.index ["workspace_connection_id"], name: "index_roles_on_workspace_connection_id"
   end
@@ -85,6 +97,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_16_085553) do
     t.boolean "is_admin", default: false
     t.string "ssh_username"
     t.text "ssh_key"
+    t.string "github_username"
   end
 
   create_table "workspace_connections", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -100,6 +113,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_16_085553) do
   add_foreign_key "accesses", "roles"
   add_foreign_key "accesses", "users"
   add_foreign_key "roles", "approval_workflows"
+  add_foreign_key "roles", "github_connections"
   add_foreign_key "roles", "google_workspace_connections"
   add_foreign_key "roles", "workspace_connections"
 end
