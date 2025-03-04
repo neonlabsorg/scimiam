@@ -53,15 +53,9 @@
               <div class="flex font-medium text-xs justify-end">
                 <span class="text-gray-400 text-xs inline-flex rounded">
                   <%= content_tag(:i, "schedule", class: "material-icons md-18 mr-1.5") %>
-                  <div class="hidden md:block">pending approval from the list:</div>
+                  <div class="hidden md:block">pending approval</div>
                 </span>
               </div>
-              <div class="flex text-gray-400 font-medium text-xs justify-end">
-                <ul class="list-disc ml-8 py-1 hidden md:block">
-                  <% AccessApprovalService.get_approvers(access.role).each do |approver| %> 
-                    <li><%= approver.displayname %></li>
-                  <% end %>
-                </ul>
             <% else %>
               <div class="flex text-white font-medium text-xs justify-end">
                 <span class="text-green-500 text-xs inline-flex rounded">
