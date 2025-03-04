@@ -1,0 +1,81 @@
+<div class="container px-5 py-1 mx-auto text-sm">
+
+  <div class="p-1 flex flex-ow scrollbar-hide border-b border-gray-200">
+    <div class="basis-1/2 font-medium text-base">
+      User profile
+    </div>
+    <div class="basis-1/2 justify-end flex">
+      <%= link_to "Edit", edit_user_path(@user), class: "text-blue-500 hover:underline" %>
+    </div>
+  </div>
+
+  <div class="w-full md:w-12/12">
+    <div class="grid md:grid-cols-1 text-xs">
+      <div class="grid grid-cols-3">
+
+        <div class="px-4 py-2 font-semibold col-span-1">Username</div>
+        <div class="px-4 py-2 col-span-2"><%= @user.username %></div>
+
+        <div class="px-4 py-2 font-semibold col-span-1">Displayname</div>
+        <div class="px-4 py-2 col-span-2"><%= @user.displayname %></div>
+
+        <div class="px-4 py-2 font-semibold col-span-1">Email</div>
+        <div class="px-4 py-2 col-span-2"><%= @user.work_email_address %></div>
+
+        <div class="px-4 py-2 font-semibold col-span-1">Github username</div>
+        <div class="px-4 py-2 col-span-2"><%= @user.github_username %></div>
+
+      </div>
+    </div>
+  </div>
+
+  <% if @accesses.any? %>
+    <div class="p-1 flex flex-ow scrollbar-hide mt-5 border-b border-gray-200">
+      <div class="font-medium text-base">
+        Access roles
+      </div>
+    </div>
+
+    <ul>
+      <% @accesses.each do |access| %>
+        <li class="flex border-b border-gray-200 py-1 items-center">
+          <div class="w-full sm:w-1/2 md:w-1/2 px-4">
+              <p class="text-xs font-medium truncate">
+                <%= access.role.name %>
+              </p>
+              <p class="text-xs text-gray-500 truncate">
+                User
+              </p>
+          </div>
+
+          <div class="w-full sm:w-1/2 md:w-1/2 px-4">
+            <% if !access.approved? %>
+              <div class="flex font-medium text-xs justify-end">
+                <span class="text-gray-400 text-xs inline-flex rounded">
+                  <%= content_tag(:i, "schedule", class: "material-icons md-18 mr-1.5") %>
+                  <div class="hidden md:block">pending approval from the list:</div>
+                </span>
+              </div>
+              <div class="flex text-gray-400 font-medium text-xs justify-end">
+                <ul class="list-disc ml-8 py-1 hidden md:block">
+                  <% AccessApprovalService.get_approvers(access.role).each do |approver| %> 
+                    <li><%= approver.displayname %></li>
+                  <% end %>
+                </ul>
+            <% else %>
+              <div class="flex text-white font-medium text-xs justify-end">
+                <span class="text-green-500 text-xs inline-flex rounded">
+                  <%= content_tag(:i, "done", class: "material-icons md-18 mr-1.5") %>
+                  <div class="hidden md:block">approved</div>
+                </span>
+              </div>
+            <% end %>
+          </div>
+
+        </li>
+      <% end %>
+
+    </ul>
+  <% end %>
+
+</div>

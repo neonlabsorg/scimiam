@@ -25,6 +25,7 @@ Rails.application.routes.draw do
   resources :audit_logs, only: [:index]
   resources :ssh_preferences, only: [:index]
   resources :github_connections
+  resources :users, only: [:index, :show, :edit, :update]
 
   namespace :api do
     namespace :v1 do
