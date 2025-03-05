@@ -10,6 +10,9 @@ class Role < ApplicationRecord
 
   
   validates :name, presence: true
+  validates :name, uniqueness: true
+  validates :github_team, uniqueness: { scope: :github_connection_id }
+
 
   def has_provisioning?
     (workspace_connection_id.present? && workspace_group.present?) || 

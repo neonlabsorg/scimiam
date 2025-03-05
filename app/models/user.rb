@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
 
   has_many :accesses
   has_many :roles, through: :accesses
-  
+
   READWRITE_ATTRS = %w{
     scim_uid
     username
@@ -15,6 +15,7 @@ class User < ActiveRecord::Base
 
   validates :username, presence: true
   validates :username, uniqueness: true
+  validates :github_username, uniqueness: true
 
   def self.scim_resource_type
     return Scimitar::Resources::User
