@@ -5,7 +5,9 @@
       User profile
     </div>
     <div class="basis-1/2 justify-end flex">
-      <%= link_to "Edit", edit_user_path(@user), class: "text-blue-500 hover:underline" %>
+      <% if current_user.is_admin? %>
+        <%= link_to "Edit", edit_user_path(@user), class: "text-blue-500 hover:underline" %>
+      <% end %>
     </div>
   </div>
 

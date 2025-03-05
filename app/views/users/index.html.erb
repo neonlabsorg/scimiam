@@ -13,7 +13,7 @@
           </div>
         </div>
         <div class="basis-1/2 justify-end flex p-1">
----
+
         </div>
       </div>
     </div>
@@ -22,6 +22,7 @@
         <thead>
           <tr class="bg-gray-100 text-gray text-sm leading-3">
             <th class="py-2 px-3 text-left md:w-56"><%= sort_link @q, :displayname, "User", {}, { data: { turbo_frame: :results} } %></th>
+            <th class="py-2 px-3 text-left md:w-56">Email</th>
           </tr>
         </thead>
         <tbody id="users" class="text-gray-600 text-sm font-light">
