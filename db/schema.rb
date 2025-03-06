@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_02_26_141152) do
+ActiveRecord::Schema[7.1].define(version: 2025_03_06_073734) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -78,6 +78,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_26_141152) do
     t.string "workspace_group"
     t.uuid "github_connection_id"
     t.string "github_team"
+    t.text "github_excluded_accounts", default: [], array: true
     t.index ["approval_workflow_id"], name: "index_roles_on_approval_workflow_id"
     t.index ["github_connection_id"], name: "index_roles_on_github_connection_id"
     t.index ["google_workspace_connection_id"], name: "index_roles_on_google_workspace_connection_id"

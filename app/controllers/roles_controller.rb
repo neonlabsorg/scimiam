@@ -80,7 +80,8 @@ class RolesController < ApplicationController
       :workspace_connection_id,
       :workspace_group,
       :github_connection_id,
-      :github_team
+      :github_team,
+      github_excluded_accounts: []
     )
   end
 

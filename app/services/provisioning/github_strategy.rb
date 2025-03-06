@@ -13,8 +13,11 @@ module Provisioning
         current_members = fetch_current_org_members(client, organization)
       end
 
-      members_to_remove = current_members - approved_user_github_usernames
-      members_to_add = approved_user_github_usernames - current_members 
+      # Retrieve excluded usernames from the Role
+      excluded_usernames = role.github_excluded_accounts
+
+      members_to_remove = current_members - approved_user_github_usernames - excluded_usernames
+      members_to_add = approved_user_github_usernames - current_members + excluded_usernames
 
       if team.present?
         remove_org_team_members(client, organization, members_to_remove)
