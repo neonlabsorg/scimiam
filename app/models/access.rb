@@ -13,7 +13,7 @@ class Access < ActiveRecord::Base
   }
 
   # after_create :initialize_approval_workflow
-  after_commit :schedule_provisioning, if: :provisioning_needed?
+  # after_commit :schedule_provisioning, if: :provisioning_needed? ### temporary commented
   # after_destroy :schedule_provisioning
 
   # attr_accessor :performed_by
