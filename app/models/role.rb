@@ -11,7 +11,7 @@ class Role < ApplicationRecord
   
   validates :name, presence: true
   validates :name, uniqueness: true
-  validates :github_team, uniqueness: { scope: :github_connection_id }
+  validates :github_team, uniqueness: { scope: :github_connection_id }, allow_blank: true
 
 
   def has_provisioning?
