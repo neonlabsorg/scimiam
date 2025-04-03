@@ -124,7 +124,7 @@ class Access < ActiveRecord::Base
           {
             type: "button",
             text: "Approve",
-            url: "https://#{ENV["OIDC_HOSTNAME"]}",
+            url: "https://#{ENV["HOSTNAME"]}",
             style: "primary"
           }
         ]
@@ -151,7 +151,7 @@ class Access < ActiveRecord::Base
     message = if status == 'pending'
       "❌ Access request declined:\n*#{user.displayname}*'s request for role *#{role.name}* was declined"
     else
-      "🚫 Access revoked:\n*#{user.displayname}*'s access to role *#{role.name}* was revoked"
+      "🚫 Access revoked:\n*#{user.displayname}*'s access role *#{role.name}* was revoked"
     end
     
     payload = {
